@@ -5,9 +5,11 @@
 
 package com.maxifier.cliche.util;
 
-import asg.cliche.util.Strings;
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  *

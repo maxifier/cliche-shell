@@ -11,5 +11,6 @@
 
     <artifactId>cliche-core</artifactId>
 
+    <name>Cliche::Core</name>
 
 </project>

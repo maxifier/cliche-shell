@@ -5,6 +5,8 @@
 
 package com.maxifier.cliche.util;
 
+import static junit.framework.Assert.assertEquals;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

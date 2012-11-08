@@ -5,9 +5,14 @@
 
 package com.maxifier.cliche;
 
-import asg.cliche.CommandNamer.NamingInfo;
-import java.lang.reflect.Method;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
+import com.maxifier.cliche.CommandNamer.NamingInfo;
+
 import org.junit.Test;
+
+import java.lang.reflect.Method;
 
 /**
  *
