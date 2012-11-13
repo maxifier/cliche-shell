@@ -4,6 +4,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>cliche-core</module>
+        <module>cliche-guice</module>
     </modules>
 
     <parent>
@@ -29,7 +30,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
+      
     <scm>
         <url>scm:git:ssh://gerrit.maxifier.com:29418/cliche.git</url>
     </scm>
@@ -37,7 +38,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    
     <build>
         <plugins>
             <plugin>
@@ -80,10 +81,17 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.maxifier.guice</groupId>
+                <artifactId>guice</artifactId>
+                <version>3.0.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>13.0.1</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
