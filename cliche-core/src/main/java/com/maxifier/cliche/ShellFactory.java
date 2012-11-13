@@ -63,10 +63,10 @@ public class ShellFactory {
         return theShell;
     }
 
-    public static Collection<Object> createSocketShell(final ServerSocket serverSocket,
-                                                       final String promt,
-                                                       final String appName,
-                                                       final Object... handlers) {
+    public static Collection<?> createSocketShell(final ServerSocket serverSocket,
+                                                  final String promt,
+                                                  final String appName,
+                                                  final Object... handlers) {
         final Collection<?> handlersCollection = Lists.newArrayList(handlers);
         Thread shellThread = new Thread(new Runnable() {
             @Override
@@ -116,6 +116,7 @@ public class ShellFactory {
         }, "Shell thread");
         shellThread.setDaemon(true);
         shellThread.start();
+        return handlersCollection;
     }
 
     /**
