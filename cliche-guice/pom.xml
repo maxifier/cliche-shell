@@ -15,6 +15,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.maxifier.cliche</groupId>
+            <artifactId>cliche-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.maxifier.guice</groupId>
             <artifactId>guice</artifactId>
         </dependency>

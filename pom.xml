@@ -81,6 +81,12 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.maxifier.cliche</groupId>
+                <artifactId>cliche-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.maxifier.guice</groupId>
                 <artifactId>guice</artifactId>
                 <version>3.0.1</version>
