@@ -9,6 +9,8 @@ import com.maxifier.cliche.util.ArrayHashMultiMap;
 import com.maxifier.cliche.util.EmptyMultiMap;
 import com.maxifier.cliche.util.MultiMap;
 
+import com.google.common.collect.Lists;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +18,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -60,10 +63,11 @@ public class ShellFactory {
         return theShell;
     }
 
-    public static void createSocketShell(final ServerSocket serverSocket,
-                                         final String promt,
-                                         final String appName,
-                                         final Object... handlers) {
+    public static Collection<Object> createSocketShell(final ServerSocket serverSocket,
+                                                       final String promt,
+                                                       final String appName,
+                                                       final Object... handlers) {
+        final Collection<?> handlersCollection = Lists.newArrayList(handlers);
         Thread shellThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -90,7 +94,7 @@ public class ShellFactory {
 
                                     theShell.addMainHandler(theShell, "!");
                                     theShell.addMainHandler(new HelpCommandHandler(), "?");
-                                    for (Object h : handlers) {
+                                    for (Object h : handlersCollection) {
                                         theShell.addMainHandler(h, "");
                                     }
                                     theShell.commandLoop();
