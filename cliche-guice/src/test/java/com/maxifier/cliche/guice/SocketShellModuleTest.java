@@ -15,7 +15,7 @@ public class SocketShellModuleTest {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Injector injector = Guice.createInjector(
-                new SocketShellModule("test", "Test App", 12890),
+                new SocketShellModule("test", "Test App", 12891),
                 new AbstractModule() {
                     @Override
                     protected void configure() {
