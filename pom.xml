@@ -74,7 +74,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.maxifier.cliche</groupId>
-                <artifactId>cliche-core</artifactId>
+                <artifactId>cliche-shell-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
