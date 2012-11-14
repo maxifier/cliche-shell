@@ -11,7 +11,7 @@
 
     <artifactId>cliche-shell-core</artifactId>
 
-    <name>Cliche::Core</name>
+    <name>Cliche Shell::Core</name>
 
     <dependencies>
         <dependency>

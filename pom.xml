@@ -23,8 +23,8 @@
 
     <scm>
         <url>https://github.com/maxifier/cliche-shellt</url>
-        <connection>git://github.com/maxifier/cliche-shell.git</connection>
-        <developerConnection>https://github.com/maxifier/cliche-shell</developerConnection>
+        <connection>scm:git:git://github.com/maxifier/cliche-shell.git</connection>
+        <developerConnection>scm:git:https://github.com/maxifier/cliche-shell</developerConnection>
     </scm>
 
     <properties>
