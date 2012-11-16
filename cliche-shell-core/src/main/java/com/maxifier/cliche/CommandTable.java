@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class CommandTable {
 
-    private List<ShellCommand> commandTable = new ArrayList<ShellCommand>();
+    private List<MethodShellCommand> commandTable = new ArrayList<MethodShellCommand>();
     private CommandNamer namer;
 
     public CommandNamer getNamer() {
@@ -27,7 +27,7 @@ public class CommandTable {
         this.namer = namer;
     }
 
-    public List<ShellCommand> getCommandTable() {
+    public List<MethodShellCommand> getCommandTable() {
         return Collections.unmodifiableList(commandTable);
     }
 
@@ -50,7 +50,7 @@ public class CommandTable {
             }
         }
         
-        ShellCommand command = new ShellCommand(handler, method, prefix, name);
+        MethodShellCommand command = new MethodShellCommand(handler, method, prefix, name);
 
         if (annotation != null && annotation.abbrev() != null && ! annotation.abbrev().equals("")) {
             command.setAbbreviation(annotation.abbrev());
@@ -69,7 +69,7 @@ public class CommandTable {
     }
 
     private boolean doesCommandExist(String commandName, int arity) {
-        for (ShellCommand cmd : commandTable) {
+        for (MethodShellCommand cmd : commandTable) {
             if (cmd.canBeDenotedBy(commandName) && cmd.getArity() == arity) {
                 return true;
             }
@@ -78,10 +78,10 @@ public class CommandTable {
     }
 
 
-    public List<ShellCommand> commandsByName(String discriminator) {
-        List<ShellCommand> collectedTable = new ArrayList<ShellCommand>();
+    public List<MethodShellCommand> commandsByName(String discriminator) {
+        List<MethodShellCommand> collectedTable = new ArrayList<MethodShellCommand>();
         // collection
-        for (ShellCommand cs : commandTable) {
+        for (MethodShellCommand cs : commandTable) {
             if (cs.canBeDenotedBy(discriminator)) {
                 collectedTable.add(cs);
             }
@@ -89,11 +89,11 @@ public class CommandTable {
         return collectedTable;
     }
 
-    public ShellCommand lookupCommand(String discriminator, List<Token> tokens) throws CLIException {
-        List<ShellCommand> collectedTable = commandsByName(discriminator);
+    public MethodShellCommand lookupCommand(String discriminator, List<Token> tokens) throws CLIException {
+        List<MethodShellCommand> collectedTable = commandsByName(discriminator);
         // reduction
-        List<ShellCommand> reducedTable = new ArrayList<ShellCommand>();
-        for (ShellCommand cs : collectedTable) {
+        List<MethodShellCommand> reducedTable = new ArrayList<MethodShellCommand>();
+        for (MethodShellCommand cs : collectedTable) {
             if (cs.getMethod().getParameterTypes().length == tokens.size()-1
                     || (cs.getMethod().isVarArgs()
                         && (cs.getMethod().getParameterTypes().length <= tokens.size()-1))) {

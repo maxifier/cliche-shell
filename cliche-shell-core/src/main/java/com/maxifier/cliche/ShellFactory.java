@@ -24,9 +24,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
+ * Shells factory.
  * @author ASG
+ * @author Aleksey Didik (Aleksey Didik)
  */
-public class ShellFactory {
+public final class ShellFactory {
 
     private ShellFactory() {
     } // this class has only static methods.
@@ -42,20 +44,30 @@ public class ShellFactory {
      * @return Shell that can be either further customized or run directly by calling commandLoop().
      */
     public static Shell createConsoleShell(String prompt, String appName, Object... handlers) {
-        ConsoleIO io = new ConsoleIO();
 
+        //io
+        ShellIO io = new ShellIO();
+
+        //base path
         List<String> path = new ArrayList<String>(1);
         path.add(prompt);
 
+        //aux handlers (common for every sub tree)
         MultiMap<String, Object> modifAuxHandlers = new ArrayHashMultiMap<String, Object>();
+        //io itself
         modifAuxHandlers.put("!", io);
 
+        //create shell
         Shell theShell = new Shell(new Shell.Settings(io, io, modifAuxHandlers, false),
                 new CommandTable(new DashJoinedNamer(true)), path);
         theShell.setAppName(appName);
 
+        //shell itself
         theShell.addMainHandler(theShell, "!");
+        //command center
         theShell.addMainHandler(new HelpCommandHandler(), "?");
+
+        //all provided handlers
         for (Object h : handlers) {
             theShell.addMainHandler(h, "");
         }
@@ -80,7 +92,7 @@ public class ShellFactory {
                                 try {
                                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                                     PrintStream out = new PrintStream(socket.getOutputStream());
-                                    ConsoleIO io = new ConsoleIO(in, out, out);
+                                    ShellIO io = new ShellIO(in, out, out);
 
                                     List<String> path = new ArrayList<String>(1);
                                     path.add(promt);
@@ -133,7 +145,7 @@ public class ShellFactory {
      */
     public static Shell createConsoleShell(String prompt, String appName, Object mainHandler,
                                            MultiMap<String, Object> auxHandlers) {
-        ConsoleIO io = new ConsoleIO();
+        ShellIO io = new ShellIO();
 
         List<String> path = new ArrayList<String>(1);
         path.add(prompt);

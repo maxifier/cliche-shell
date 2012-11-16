@@ -12,7 +12,7 @@ import java.util.List;
  * Procedural class with static public methods for string handling.
  * @author ASG
  */
-public class Strings {
+public final class Strings {
 
     /**
      * Fixes case of a word: Str -> str, but URL -> URL.

@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author ASG
  */
-public class HelloWorld {
+public class eHelloWorld {
 
     @Command
     public int add(int a, int b) {

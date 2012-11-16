@@ -12,6 +12,7 @@ import com.maxifier.cliche.Param;
 import com.maxifier.cliche.ShellDependent;
 import com.maxifier.cliche.ShellFactory;
 import java.io.IOException;
+import java.net.ServerSocket;
 
 /**
  * 'more advanced' example.
@@ -83,10 +84,11 @@ public class Example implements ShellDependent {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        ShellFactory.createConsoleShell("example", "The Cliche Shell example\n" +
-                "Enter ?l to list available commands.", new Example())
-                .commandLoop();
+    public static void main(String[] args) throws IOException, InterruptedException {
+        ShellFactory.createSocketShell(new ServerSocket(12890), "example", "The Cliche Shell example\n" +
+                "Enter ?l to list available commands.", new Example());
+        Thread.sleep(8901231);
+
     }
 
 }

@@ -29,10 +29,9 @@ import java.util.List;
  */
 public class Shell {
 
-    public static String PROJECT_HOMEPAGE_URL = "http://cliche.sourceforge.net";
-
     private Output output;
     private Input input;
+
     private String appName;
 
     public static class Settings {
@@ -208,13 +207,16 @@ public class Shell {
      * @throws java.io.IOException when can't readLine() from input.
      */
     public void commandLoop() throws IOException {
+
         for (Object handler : allHandlers) {
             if (handler instanceof ShellManageable) {
                 ((ShellManageable)handler).cliEnterLoop();
             }
         }
         output.output(appName, outputConverter);
+
         String command = "";
+
         while (!command.trim().equals("exit")) {
             try {
                 command = input.readCommand(path);
@@ -272,7 +274,7 @@ public class Shell {
         assert discriminator != null;
         assert ! discriminator.equals("");
 
-        ShellCommand commandToInvoke = commandTable.lookupCommand(discriminator, tokens);
+        MethodShellCommand commandToInvoke = commandTable.lookupCommand(discriminator, tokens);
 
         Class[] paramClasses = commandToInvoke.getMethod().getParameterTypes();
         Object[] parameters = inputConverter.convertToParameters(tokens, paramClasses,
@@ -294,6 +296,9 @@ public class Shell {
             }
         }
     }
+
+
+
 
     private static final String TIME_MS_FORMAT_STRING = "time: %d ms";
 

@@ -17,7 +17,7 @@ import java.util.*;
  * It also gets all converters declared in a handler object 
  * through addDeclaredConverters method.
  * 
- * Used by Shell and will also be used by ShellCommand.
+ * Used by Shell and will also be used by MethodShellCommand.
  *
  * @author ASG
  */
