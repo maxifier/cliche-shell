@@ -14,6 +14,9 @@ package com.maxifier.cliche;
 
 import com.maxifier.cliche.util.ArrayHashMultiMap;
 import com.maxifier.cliche.util.MultiMap;
+
+import com.google.common.base.Strings;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -218,7 +221,9 @@ public class Shell {
         while (!command.trim().equals("exit")) {
             try {
                 command = input.readCommand(path);
-                processLine(command);
+                if (!Strings.isNullOrEmpty(command)) {
+                    processLine(command);
+                }
             } catch (TokenException te) {
                 lastException = te;
                 output.outputException(command, te);

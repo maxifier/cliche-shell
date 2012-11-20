@@ -7,11 +7,16 @@ package com.maxifier.cliche.example;
 import com.maxifier.cliche.Command;
 import com.maxifier.cliche.InputConverter;
 import com.maxifier.cliche.OutputConverter;
-import com.maxifier.cliche.Shell;
 import com.maxifier.cliche.Param;
+import com.maxifier.cliche.Shell;
 import com.maxifier.cliche.ShellDependent;
 import com.maxifier.cliche.ShellFactory;
+
+import com.google.common.collect.Lists;
+
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.List;
 
 /**
  * 'more advanced' example.
@@ -83,10 +88,22 @@ public class Example implements ShellDependent {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        ShellFactory.createConsoleShell("example", "The Cliche Shell example\n" +
-                "Enter ?l to list available commands.", new Example())
-                .commandLoop();
+    public static void main(String[] args) throws IOException, InterruptedException {
+        System.setProperty("line.separator", "\r\n");
+        ShellFactory.createSocketShell(new ServerSocket(12890), "example", "The Cliche Shell example\n" +
+                "Enter ?l to list available commands.", new Example());
+        Thread.sleep(40545345L);
+    }
+
+    @Command
+    public String longString() {
+        return "Hello\r\nworld!\r\n And You too!";
+    }
+
+
+    @Command
+    public List<String> listString() {
+        return Lists.newArrayList("Hello", "world", "and", "you");
     }
 
 }
