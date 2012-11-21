@@ -9,6 +9,8 @@ import com.google.inject.spi.InjectionListener;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 
+import java.io.IOException;
+
 /**
  * @author aleksey.didik@maxifier.com (Aleksey Didik)
  */
@@ -24,7 +26,12 @@ public class ConsoleShellModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        final Shell shell = ShellFactory.createConsoleShell(promt, appName);
+        final Shell shell;
+        try {
+            shell = ShellFactory.createConsoleShell(promt, appName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         bind(Shell.class).toInstance(shell);
         bindListener(AnnotatedClassMatcher.with(CommandHandler.class),
                 new TypeListener() {

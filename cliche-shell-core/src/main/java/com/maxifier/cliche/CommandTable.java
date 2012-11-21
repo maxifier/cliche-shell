@@ -5,8 +5,12 @@
 
 package com.maxifier.cliche;
 
+import com.google.common.collect.Lists;
+
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Command table is responsible for managing a lot of ShellCommands and is like a dictionary,
@@ -31,13 +35,33 @@ public class CommandTable {
         return Collections.unmodifiableList(commandTable);
     }
 
+    public List<String> getAbbreviates(String prefix) {
+        ArrayList<String> abbrs = Lists.newArrayListWithCapacity(commandTable.size());
+        for (ShellCommand shellCommand : commandTable) {
+            if (prefix == null || shellCommand.getPrefix().equals(prefix)) {
+                abbrs.add(shellCommand.getPrefix() + shellCommand.getAbbreviation());
+            }
+        }
+        return abbrs;
+    }
+
+    public List<String> getCommandsNames(String prefix) {
+        ArrayList<String> names = Lists.newArrayListWithCapacity(commandTable.size());
+        for (ShellCommand shellCommand : commandTable) {
+            if (prefix == null || shellCommand.getPrefix().equals(prefix)) {
+                names.add(shellCommand.getPrefix() + shellCommand.getName());
+            }
+        }
+        return names;
+    }
+
     public void addMethod(Method method, Object handler, String prefix) {
         Command annotation = method.getAnnotation(Command.class);
         assert method != null;
         String name;
         String autoAbbrev = null;
 
-        if (annotation != null && annotation.name() != null && ! annotation.name().equals("")) {
+        if (annotation != null && annotation.name() != null && !annotation.name().equals("")) {
             name = annotation.name();
         } else {
             CommandNamer.NamingInfo autoNames = namer.nameCommand(method);
@@ -49,10 +73,10 @@ public class CommandTable {
                 }
             }
         }
-        
+
         ShellCommand command = new ShellCommand(handler, method, prefix, name);
 
-        if (annotation != null && annotation.abbrev() != null && ! annotation.abbrev().equals("")) {
+        if (annotation != null && annotation.abbrev() != null && !annotation.abbrev().equals("")) {
             command.setAbbreviation(annotation.abbrev());
         } else {
             command.setAbbreviation(autoAbbrev);
@@ -60,10 +84,10 @@ public class CommandTable {
         if (annotation != null && annotation.description() != null && !annotation.description().equals("")) {
             command.setDescription(annotation.description());
         }
-        if (annotation != null && annotation.header() != null && ! annotation.header().equals("")) {
+        if (annotation != null && annotation.header() != null && !annotation.header().equals("")) {
             command.setHeader(annotation.header());
         }
-        
+
         commandTable.add(command);
 
     }
@@ -94,9 +118,9 @@ public class CommandTable {
         // reduction
         List<ShellCommand> reducedTable = new ArrayList<ShellCommand>();
         for (ShellCommand cs : collectedTable) {
-            if (cs.getMethod().getParameterTypes().length == tokens.size()-1
+            if (cs.getMethod().getParameterTypes().length == tokens.size() - 1
                     || (cs.getMethod().isVarArgs()
-                        && (cs.getMethod().getParameterTypes().length <= tokens.size()-1))) {
+                    && (cs.getMethod().getParameterTypes().length <= tokens.size() - 1))) {
                 reducedTable.add(cs);
             }
         }
@@ -104,9 +128,9 @@ public class CommandTable {
         if (collectedTable.size() == 0) {
             throw CLIException.createCommandNotFound(discriminator);
         } else if (reducedTable.size() == 0) {
-            throw CLIException.createCommandNotFoundForArgNum(discriminator, tokens.size()-1);
+            throw CLIException.createCommandNotFoundForArgNum(discriminator, tokens.size() - 1);
         } else if (reducedTable.size() > 1) {
-            throw CLIException.createAmbiguousCommandExc(discriminator, tokens.size()-1);
+            throw CLIException.createAmbiguousCommandExc(discriminator, tokens.size() - 1);
         } else {
             return reducedTable.get(0);
         }
