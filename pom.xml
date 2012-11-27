@@ -88,6 +88,12 @@
                 <artifactId>guava</artifactId>
                 <version>13.0.1</version>
             </dependency>
+            <dependency>
+                <groupId>data-exporter</groupId>
+                <artifactId>data-exporter</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
