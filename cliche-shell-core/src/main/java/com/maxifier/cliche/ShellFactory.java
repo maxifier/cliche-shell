@@ -10,10 +10,12 @@ import com.maxifier.cliche.util.EmptyMultiMap;
 import com.maxifier.cliche.util.MultiMap;
 
 import com.google.common.collect.Lists;
+import jline.console.ConsoleReader;
+import org.apache.sshd.SshServer;
+import org.apache.sshd.common.Factory;
+import org.apache.sshd.server.Command;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -41,7 +44,7 @@ public class ShellFactory {
      * @param handlers Command handlers
      * @return Shell that can be either further customized or run directly by calling commandLoop().
      */
-    public static Shell createConsoleShell(String prompt, String appName, Object... handlers) {
+    public static Shell createConsoleShell(String prompt, String appName, Object... handlers) throws IOException {
         ConsoleIO io = new ConsoleIO();
 
         List<String> path = new ArrayList<String>(1);
@@ -78,9 +81,9 @@ public class ShellFactory {
                         executor.execute(new Runnable() {
                             public void run() {
                                 try {
-                                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                                     PrintStream out = new PrintStream(socket.getOutputStream());
-                                    ConsoleIO io = new ConsoleIO(in, out, out);
+                                    ConsoleReader consoleReader = new ConsoleReader(socket.getInputStream(), out);
+                                    ConsoleIO io = new ConsoleIO(consoleReader, out, out);
 
                                     List<String> path = new ArrayList<String>(1);
                                     path.add(promt);
@@ -119,6 +122,30 @@ public class ShellFactory {
         return handlersCollection;
     }
 
+    public static Collection<?> createSshShell(final SshServer server,
+                                               final String promt,
+                                               final String appName,
+                                               final Object... handlers) {
+        final Collection<?> handlersCollection = Lists.newArrayList(handlers);
+        Thread shellThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final ExecutorService executor = Executors.newCachedThreadPool();
+                server.setShellFactory(new Factory<org.apache.sshd.server.Command>() {
+                    @Override
+                    public Command create() {
+                        return new SshShellCommand(executor, promt, appName, handlersCollection);
+                    }
+                });
+            }
+        }, "Shell thread");
+        shellThread.setDaemon(true);
+        shellThread.start();
+        return handlersCollection;
+
+
+    }
+
     /**
      * Facade method for operating the Shell allowing specification of auxiliary
      * handlers (i.e. handlers that are to be passed to all subshells).
@@ -132,7 +159,7 @@ public class ShellFactory {
      * @return Shell that can be either further customized or run directly by calling commandLoop().
      */
     public static Shell createConsoleShell(String prompt, String appName, Object mainHandler,
-                                           MultiMap<String, Object> auxHandlers) {
+                                           MultiMap<String, Object> auxHandlers) throws IOException {
         ConsoleIO io = new ConsoleIO();
 
         List<String> path = new ArrayList<String>(1);
@@ -162,7 +189,7 @@ public class ShellFactory {
      * @param mainHandler Command handler
      * @return Shell that can be either further customized or run directly by calling commandLoop().
      */
-    public static Shell createConsoleShell(String prompt, String appName, Object mainHandler) {
+    public static Shell createConsoleShell(String prompt, String appName, Object mainHandler) throws IOException {
         return createConsoleShell(prompt, appName, mainHandler, new EmptyMultiMap<String, Object>());
     }
 

@@ -6,6 +6,9 @@
 package com.maxifier.cliche;
 
 import com.maxifier.cliche.util.Strings;
+
+import jline.console.ConsoleReader;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,18 +28,18 @@ import java.util.List;
  */
 public class ConsoleIO implements Input, Output, ShellManageable {
 
-    public ConsoleIO(BufferedReader in, PrintStream out, PrintStream err) {
+    public ConsoleIO(ConsoleReader in, PrintStream out, PrintStream err) {
         this.in = in;
         this.out = out;
         this.err = err;
     }
 
-    public ConsoleIO() {
-        this(new BufferedReader(new InputStreamReader(System.in)),
+    public ConsoleIO() throws IOException {
+        this(new ConsoleReader(System.in, System.out),
                 System.out, System.err);
     }
 
-    private BufferedReader in;
+    private ConsoleReader in;
     private PrintStream out;
     private PrintStream err;
 
@@ -72,10 +75,10 @@ public class ConsoleIO implements Input, Output, ShellManageable {
 
     private String readUsersCommand(String prompt) throws IOException {
         String completePrompt = prompt+ USER_PROMPT_SUFFIX;
-        print(completePrompt);
+        //print(completePrompt);
         lastCommandOffset = completePrompt.length();
         
-        String command = in.readLine();
+        String command = in.readLine(completePrompt);
         if (log != null) {
             log.println(command);
         }
