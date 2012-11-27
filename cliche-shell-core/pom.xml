@@ -26,6 +26,15 @@
             <artifactId>sshd-core</artifactId>
             <version>0.8.0</version>
         </dependency>
+        <dependency>
+            <groupId>data-exporter</groupId>
+            <artifactId>data-exporter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils-core</artifactId>
+            <version>1.8.3</version>
+        </dependency>
 
 
     </dependencies>
