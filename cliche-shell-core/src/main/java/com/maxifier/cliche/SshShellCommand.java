@@ -2,7 +2,6 @@ package com.maxifier.cliche;
 
 import com.maxifier.cliche.util.EmptyMultiMap;
 
-import jline.UnixTerminal;
 import jline.console.ConsoleReader;
 import jline.console.completer.AggregateCompleter;
 import jline.console.completer.StringsCompleter;
@@ -76,7 +75,7 @@ class SshShellCommand implements Command {
             @Override
             public void run() {
                 try {
-                    consoleReader = new ConsoleReader(in, out, new UnixTerminal());
+                    consoleReader = new ConsoleReader(in, out);
                     consoleReader.setBellEnabled(true);
                     consoleReader.setHistory(new FileHistory(new File(System.getProperty("user.home"), ".clhistory")));
                     consoleReader.setHistoryEnabled(true);
@@ -103,9 +102,11 @@ class SshShellCommand implements Command {
                     flushHistory();
                     callback.onExit(0);
                 } catch (IOException e) {
+                    //TODO
                 } catch (Exception e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();//TODO
                 } finally {
+                    //TODO
                 }
             }
         });
