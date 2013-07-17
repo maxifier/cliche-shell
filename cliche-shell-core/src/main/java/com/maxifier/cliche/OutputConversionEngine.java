@@ -21,7 +21,7 @@ import java.util.*;
  *
  * @author ASG
  */
-public class OutputConversionEngine {
+public interface OutputConversionEngine {
 
     private List<OutputConverter> outputConverters = new ArrayList<OutputConverter>();
 
@@ -47,25 +47,4 @@ public class OutputConversionEngine {
         }
         return convertedOutput;
     }
-
-    public void addDeclaredConverters(Object handler) {
-        Field[] fields = handler.getClass().getFields();
-        final String PREFIX = "CLI_OUTPUT_CONVERTERS";
-        for (Field field : fields) {
-            if (field.getName().startsWith(PREFIX)
-                    && field.getType().isArray()
-                    && OutputConverter.class.isAssignableFrom(field.getType().getComponentType())) {
-                try {
-                    Object convertersArray = field.get(handler);
-                    for (int i = 0; i < Array.getLength(convertersArray); i++) {
-                        addConverter((OutputConverter)Array.get(convertersArray, i));
-                    }
-                } catch (Exception ex) {
-                    throw new RuntimeException("Error getting converter from field " + field.getName(), ex);
-                }
-            }
-        }
-    }
-
-
 }

@@ -1,13 +1,17 @@
 package com.maxifier.cliche.guice;
 
-import com.maxifier.cliche.ShellFactory;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.InjectionListener;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
+import com.maxifier.cliche.ShellFactory;
+import com.maxifier.cliche.SshShellCommand;
 import org.apache.sshd.SshServer;
+import org.apache.sshd.common.Factory;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
@@ -15,6 +19,8 @@ import org.apache.sshd.server.session.ServerSession;
 import java.io.IOException;
 import java.security.PublicKey;
 import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author aleksey.didik@maxifier.com (Aleksey Didik)
@@ -33,27 +39,41 @@ public class SshShellModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        SshServer sshServer = SshServer.setUpDefaultServer();
+        final SshServer sshServer = SshServer.setUpDefaultServer();
+
         sshServer.setPublickeyAuthenticator(new PublickeyAuthenticator() {
             @Override
             public boolean authenticate(String username, PublicKey key, ServerSession session) {
                 return true;
             }
         });
-        //        sshServer.setPasswordAuthenticator(new PasswordAuthenticator() {
-        //            @Override
-        //            public boolean authenticate(String username, String password, ServerSession session) {
-        //                return true;  //To change body of implemented methods use File | Settings | File Templates.
-        //            }
-        //        });
+        sshServer.setPasswordAuthenticator(new PasswordAuthenticator() {
+            @Override
+            public boolean authenticate(String username, String password, ServerSession session) {
+                return true;
+            }
+        });
         sshServer.setPort(port);
         sshServer.setKeyPairProvider(new SimpleGeneratorHostKeyProvider("hostkey.ser"));
+
+
         final Collection shellHandlers = ShellFactory.createSshShell(sshServer, promt, appName);
+
+        sshServer.setCommandFactory(new CommandFactory() {
+
+            @Override
+            public Command createCommand(String command) {
+                final ExecutorService executor = Executors.newCachedThreadPool();
+                return new SshShellCommand(executor, promt, appName, shellHandlers);
+            }
+        });
+
         try {
             sshServer.start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         bindListener(AnnotatedClassMatcher.with(CommandHandler.class),
                 new TypeListener() {
                     @Override
@@ -67,6 +87,7 @@ public class SshShellModule extends AbstractModule {
                     }
                 }
         );
+
     }
 
 

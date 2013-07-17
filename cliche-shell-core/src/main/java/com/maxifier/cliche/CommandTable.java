@@ -57,7 +57,6 @@ public class CommandTable {
 
     public void addMethod(Method method, Object handler, String prefix) {
         Command annotation = method.getAnnotation(Command.class);
-        assert method != null;
         String name;
         String autoAbbrev = null;
 

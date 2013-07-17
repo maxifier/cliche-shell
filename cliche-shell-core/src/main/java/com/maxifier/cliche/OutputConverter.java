@@ -5,19 +5,9 @@
 
 package com.maxifier.cliche;
 
-/**
- * This interface is used by the Shell to support new return types.
- * It converts objects to other objects (usually strings) that will be displayed.
- * @author ASG
- */
+import java.lang.reflect.Method;
+
 public interface OutputConverter {
-    /**
-     * Object-to--user-friendly-object (usually string) conversion method.
-     * The method must check argument's class, since it will be fed virtually all
-     * returned objects. Simply return null when not sure.
-     * @param toBeFormatted Object to be displayed to the user
-     * @return Object representing the object or Null if don't know how to make it.
-     *         Do not return default toString() !!
-     */
-    Object convertOutput(Object toBeFormatted);
+
+    Object convertOutput(Object toBeFormatted, Method commandMethod);
 }

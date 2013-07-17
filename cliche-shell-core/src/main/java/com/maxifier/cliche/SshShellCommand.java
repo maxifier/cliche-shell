@@ -27,7 +27,7 @@ import java.util.concurrent.Future;
 /**
  * @author aleksey.didik@maxifier.com Aleksey Didik
  */
-class SshShellCommand implements Command {
+public class SshShellCommand implements Command {
 
     private final ExecutorService executor;
     private final String promt;
@@ -35,14 +35,15 @@ class SshShellCommand implements Command {
     private final Collection<?> handlersCollection;
     private InputStream in;
     private PrintStream out;
-    private PrintStream err;
     private ExitCallback callback;
     private Future future;
     private ConsoleReader consoleReader;
     private Shell theShell;
 
-    public SshShellCommand(ExecutorService executor, String promt, String appName, Collection<?> handlersCollection) {
-        //To change body of created methods use File | Settings | File Templates.
+    public SshShellCommand(ExecutorService executor,
+                           String promt,
+                           String appName,
+                           Collection<?> handlersCollection) {
         this.executor = executor;
         this.promt = promt;
         this.appName = appName;
@@ -81,12 +82,11 @@ class SshShellCommand implements Command {
                     consoleReader.setHistoryEnabled(true);
                     consoleReader.setExpandEvents(false);
 
-                    ConsoleIO io = new ConsoleIO(consoleReader, out, out);
+                    ConsoleIO io = new JLineConsoleIO(consoleReader, out, out);
                     List<String> path = new ArrayList<String>(1);
                     path.add(promt);
-                    theShell = new Shell(new Shell.Settings(io, io, new EmptyMultiMap(), false),
+                    theShell = new Shell(new Shell.Settings(io, io, new EmptyMultiMap()),
                             new CommandTable(new DashJoinedNamer(true)), path);
-                    theShell.setAppName(appName);
                     theShell.addMainHandler(theShell, "!");
                     theShell.addMainHandler(new HelpCommandHandler(), "?");
                     for (Object h : handlersCollection) {

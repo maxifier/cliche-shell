@@ -45,7 +45,7 @@ public class ShellFactory {
      * @return Shell that can be either further customized or run directly by calling commandLoop().
      */
     public static Shell createConsoleShell(String prompt, String appName, Object... handlers) throws IOException {
-        ConsoleIO io = new ConsoleIO();
+        ConsoleIO io = new JLineConsoleIO();
 
         List<String> path = new ArrayList<String>(1);
         path.add(prompt);
@@ -83,7 +83,7 @@ public class ShellFactory {
                                 try {
                                     PrintStream out = new PrintStream(socket.getOutputStream());
                                     ConsoleReader consoleReader = new ConsoleReader(socket.getInputStream(), out);
-                                    ConsoleIO io = new ConsoleIO(consoleReader, out, out);
+                                    ConsoleIO io = new JLineConsoleIO(consoleReader, out, out);
 
                                     List<String> path = new ArrayList<String>(1);
                                     path.add(promt);
@@ -160,7 +160,7 @@ public class ShellFactory {
      */
     public static Shell createConsoleShell(String prompt, String appName, Object mainHandler,
                                            MultiMap<String, Object> auxHandlers) throws IOException {
-        ConsoleIO io = new ConsoleIO();
+        ConsoleIO io = new JLineConsoleIO();
 
         List<String> path = new ArrayList<String>(1);
         path.add(prompt);

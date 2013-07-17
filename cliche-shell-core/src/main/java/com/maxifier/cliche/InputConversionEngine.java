@@ -21,7 +21,7 @@ import java.util.*;
  *
  * @author ASG
  */
-public class InputConversionEngine {
+public interface InputConversionEngine {
 
     private List<InputConverter> inputConverters = new ArrayList<InputConverter>();
 
@@ -120,33 +120,12 @@ public class InputConversionEngine {
                     return c.newInstance(string);
                 } catch (Exception ex) {
                     throw new CLIException(String.format(
-                            "Error instantiating class %c using string %s", aClass, string), ex);
+                            "Error instantiating class %s using string %s", aClass.getName(), string), ex);
                 }
             } catch (NoSuchMethodException e) {
                 throw new CLIException("Can't convert string to " + aClass.getName());
             }
         }
     }
-
-    public void addDeclaredConverters(Object handler) {
-        Field[] fields = handler.getClass().getFields();
-        final String PREFIX = "CLI_INPUT_CONVERTERS";
-        for (Field field : fields) {
-            if (field.getName().startsWith(PREFIX)
-                    && field.getType().isArray()
-                    && InputConverter.class.isAssignableFrom(field.getType().getComponentType())) {
-                try {
-                    Object convertersArray = field.get(handler);
-                    for (int i = 0; i < Array.getLength(convertersArray); i++) {
-                        addConverter((InputConverter)Array.get(convertersArray, i));
-                    }
-                } catch (Exception ex) {
-                    throw new RuntimeException("Error getting converter from field " + field.getName(), ex);
-                }
-            }
-        }
-    }
-
-
 
 }

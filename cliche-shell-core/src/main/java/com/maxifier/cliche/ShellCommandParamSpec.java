@@ -24,7 +24,6 @@ public class ShellCommandParamSpec {
                 }
             }
             if (paramAnnotation != null) {
-                assert !paramAnnotation.name().isEmpty() : "@Param.name mustn\'t be empty";
                 result[i] = new ShellCommandParamSpec(paramAnnotation.name(), paramTypes[i],
                         paramAnnotation.description(), i);
             } else {

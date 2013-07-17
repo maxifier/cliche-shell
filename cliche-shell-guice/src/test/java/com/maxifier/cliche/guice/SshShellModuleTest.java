@@ -1,5 +1,8 @@
 package com.maxifier.cliche.guice;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.maxifier.cliche.Command;
 
 import com.brsanthu.dataexporter.model.AlignType;
@@ -17,15 +20,15 @@ public class SshShellModuleTest {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println(new Foo().table());
-//        Injector injector = Guice.createInjector(
-//                new SshShellModule("test", "Test App", 12891),
-//                new AbstractModule() {
-//                    @Override
-//                    protected void configure() {
-//                        bind(Foo.class).asEagerSingleton();
-//                    }
-//                });
-//        Thread.sleep(500000);
+        Injector injector = Guice.createInjector(
+                new SshShellModule("test", "Test App", 12891),
+                new AbstractModule() {
+                    @Override
+                    protected void configure() {
+                        bind(Foo.class).asEagerSingleton();
+                    }
+                });
+        Thread.sleep(500000);
 
     }
 
