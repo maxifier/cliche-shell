@@ -5,9 +5,13 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.spi.InjectionListener;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
+import com.maxifier.cliche.ResourceHostKeyProvider;
 import com.maxifier.cliche.ShellFactory;
 import com.maxifier.cliche.SshNonInteractiveShellCommand;
 import org.apache.sshd.SshServer;
+import org.apache.sshd.common.KeyPairProvider;
+import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
+import org.apache.sshd.common.keyprovider.ResourceKeyPairProvider;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PasswordAuthenticator;
@@ -15,6 +19,7 @@ import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.PublicKey;
 import java.util.Collection;
@@ -50,7 +55,7 @@ public class SshShellModule extends AbstractModule {
             }
         });
         sshServer.setPort(port);
-        sshServer.setKeyPairProvider(new SimpleGeneratorHostKeyProvider("hostkey.ser"));
+        sshServer.setKeyPairProvider(new ResourceHostKeyProvider(".hostkey"));
         final Collection shellHandlers = ShellFactory.createSshShell(sshServer, promt, appName);
         sshServer.setCommandFactory(new CommandFactory() {
             @Override
@@ -77,6 +82,7 @@ public class SshShellModule extends AbstractModule {
                 }
         );
     }
+
 
 
 }
