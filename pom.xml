@@ -23,7 +23,7 @@
     <scm>
         <url>https://github.com/maxifier/cliche-shellt</url>
         <connection>scm:git:git://github.com/maxifier/cliche-shell.git</connection>
-        <developerConnection>scm:git:https://github.com/maxifier/cliche-shell</developerConnection>
+        <developerConnection>scm:git:ssh://github.com/maxifier/cliche-shell</developerConnection>
     </scm>
 
     <properties>
@@ -32,6 +32,14 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
