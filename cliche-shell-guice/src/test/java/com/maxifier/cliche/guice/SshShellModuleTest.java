@@ -21,7 +21,7 @@ public class SshShellModuleTest {
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println(new Foo().table());
         Injector injector = Guice.createInjector(
-                new SshShellModule("test", "Test App", 12891),
+                new SshShellModule("test", "Test App", 12890),
                 new AbstractModule() {
                     @Override
                     protected void configure() {

@@ -33,6 +33,7 @@ class SshShellCommand implements Command {
     private final String promt;
     private final String appName;
     private final Collection<?> handlersCollection;
+    private final int port;
     private InputStream in;
     private PrintStream out;
     private PrintStream err;
@@ -41,11 +42,16 @@ class SshShellCommand implements Command {
     private ConsoleReader consoleReader;
     private Shell theShell;
 
-    public SshShellCommand(ExecutorService executor, String promt, String appName, Collection<?> handlersCollection) {
+    public SshShellCommand(ExecutorService executor,
+                           String promt,
+                           String appName,
+                           Collection<?> handlersCollection,
+                           int port) {
         this.executor = executor;
         this.promt = promt;
         this.appName = appName;
         this.handlersCollection = handlersCollection;
+        this.port = port;
     }
 
     @Override
@@ -76,7 +82,9 @@ class SshShellCommand implements Command {
                 try {
                     consoleReader = new ConsoleReader(in, out);
                     consoleReader.setBellEnabled(true);
-                    consoleReader.setHistory(new FileHistory(new File(System.getProperty("user.home"), ".clhistory")));
+                    //history file is port based to separate apps
+                    File historyFile = new File(System.getProperty("user.home"), ".clhistory" + port);
+                    consoleReader.setHistory(new FileHistory(historyFile));
                     consoleReader.setHistoryEnabled(true);
                     consoleReader.setExpandEvents(false);
 

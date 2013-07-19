@@ -134,7 +134,7 @@ public class ShellFactory {
                 server.setShellFactory(new Factory<org.apache.sshd.server.Command>() {
                     @Override
                     public Command create() {
-                        return new SshShellCommand(executor, promt, appName, handlersCollection);
+                        return new SshShellCommand(executor, promt, appName, handlersCollection, server.getPort());
                     }
                 });
             }
