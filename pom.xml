@@ -14,14 +14,14 @@
     </modules>
 
 
-    <groupId>com.maxifier.cliche-shell</groupId>
+    <groupId>com.maxifier.cliche</groupId>
     <artifactId>cliche-shell</artifactId>
     <version>1.1.2-SNAPSHOT</version>
 
     <name>Cliche Shell</name>
 
     <scm>
-        <url>https://github.com/maxifier/cliche-shellt</url>
+        <url>https://github.com/maxifier/cliche-shell</url>
         <connection>scm:git:git://github.com/maxifier/cliche-shell.git</connection>
         <developerConnection>scm:git:https://github.com/maxifier/cliche-shell</developerConnection>
       <tag>HEAD</tag>
@@ -39,6 +39,8 @@
                 <version>2.4</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <preparationGoals>clean install</preparationGoals>
+                    <goals>deploy</goals>
                 </configuration>
             </plugin>
             <plugin>
