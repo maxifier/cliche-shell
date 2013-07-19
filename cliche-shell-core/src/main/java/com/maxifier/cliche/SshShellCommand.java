@@ -102,6 +102,7 @@ class SshShellCommand implements Command {
                 } catch (Exception e) {
                     callback.onExit(1);
                 } finally {
+                    consoleReader.shutdown();
                     flushHistory();
                 }
             }
@@ -122,6 +123,7 @@ class SshShellCommand implements Command {
     public void destroy() {
         this.future.cancel(false);
         flushHistory();
+        consoleReader.shutdown();
     }
 
 
