@@ -14,7 +14,7 @@
     </modules>
 
 
-    <groupId>com.maxifier.cliche</groupId>
+    <groupId>com.maxifier.cliche-shell</groupId>
     <artifactId>cliche-shell</artifactId>
     <version>1.1.2-SNAPSHOT</version>
 
