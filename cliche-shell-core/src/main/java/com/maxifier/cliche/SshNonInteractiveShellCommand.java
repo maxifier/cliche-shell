@@ -86,7 +86,10 @@ public class SshNonInteractiveShellCommand implements Command {
             callback.onExit(0);
         } catch (Exception e) {
             callback.onExit(1, e.getMessage());
+        } finally {
+            consoleReader.shutdown();
         }
+
 
     }
 
@@ -103,6 +106,7 @@ public class SshNonInteractiveShellCommand implements Command {
     @Override
     public void destroy() {
         flushHistory();
+        consoleReader.shutdown();
     }
 
 
