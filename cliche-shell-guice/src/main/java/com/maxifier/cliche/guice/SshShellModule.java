@@ -1,13 +1,16 @@
 package com.maxifier.cliche.guice;
 
-import com.maxifier.cliche.ShellFactory;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.InjectionListener;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
+import com.maxifier.cliche.ShellFactory;
+import com.maxifier.cliche.SshNonInteractiveShellCommand;
 import org.apache.sshd.SshServer;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
@@ -40,15 +43,21 @@ public class SshShellModule extends AbstractModule {
                 return true;
             }
         });
-        //        sshServer.setPasswordAuthenticator(new PasswordAuthenticator() {
-        //            @Override
-        //            public boolean authenticate(String username, String password, ServerSession session) {
-        //                return true;  //To change body of implemented methods use File | Settings | File Templates.
-        //            }
-        //        });
+        sshServer.setPasswordAuthenticator(new PasswordAuthenticator() {
+            @Override
+            public boolean authenticate(String username, String password, ServerSession session) {
+                return true;
+            }
+        });
         sshServer.setPort(port);
         sshServer.setKeyPairProvider(new SimpleGeneratorHostKeyProvider("hostkey.ser"));
         final Collection shellHandlers = ShellFactory.createSshShell(sshServer, promt, appName);
+        sshServer.setCommandFactory(new CommandFactory() {
+            @Override
+            public Command createCommand(String command) {
+                return new SshNonInteractiveShellCommand(command, shellHandlers);
+            }
+        });
         try {
             sshServer.start();
         } catch (IOException e) {

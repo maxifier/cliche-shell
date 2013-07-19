@@ -42,7 +42,6 @@ class SshShellCommand implements Command {
     private Shell theShell;
 
     public SshShellCommand(ExecutorService executor, String promt, String appName, Collection<?> handlersCollection) {
-        //To change body of created methods use File | Settings | File Templates.
         this.executor = executor;
         this.promt = promt;
         this.appName = appName;
@@ -99,14 +98,11 @@ class SshShellCommand implements Command {
                     theShell.commandLoop();
                     out.println("Bye!");
                     out.flush();
-                    flushHistory();
                     callback.onExit(0);
-                } catch (IOException e) {
-                    //TODO
                 } catch (Exception e) {
-                    e.printStackTrace();//TODO
+                    callback.onExit(1);
                 } finally {
-                    //TODO
+                    flushHistory();
                 }
             }
         });
