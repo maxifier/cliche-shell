@@ -5,11 +5,10 @@
 
 package com.maxifier.cliche;
 
+import com.google.common.collect.Lists;
 import com.maxifier.cliche.util.ArrayHashMultiMap;
 import com.maxifier.cliche.util.EmptyMultiMap;
 import com.maxifier.cliche.util.MultiMap;
-
-import com.google.common.collect.Lists;
 import jline.console.ConsoleReader;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Factory;
@@ -125,8 +124,7 @@ public class ShellFactory {
     public static Collection<?> createSshShell(final SshServer server,
                                                final String promt,
                                                final String appName,
-                                               final Object... handlers) {
-        final Collection<?> handlersCollection = Lists.newArrayList(handlers);
+                                               final Collection handlersCollection) {
         Thread shellThread = new Thread(new Runnable() {
             @Override
             public void run() {

@@ -1,5 +1,6 @@
 package com.maxifier.cliche.example;
 
+import com.google.common.collect.ImmutableList;
 import com.maxifier.cliche.ShellFactory;
 
 import org.apache.sshd.SshServer;
@@ -31,7 +32,7 @@ public class ConsoleReaderTest {
 //        });
         sshServer.setPort(12890);
         sshServer.setKeyPairProvider(new SimpleGeneratorHostKeyProvider("hostkey.ser"));
-        ShellFactory.createSshShell(sshServer, "welcome", "Test ssh app with console reader", new Example());
+        ShellFactory.createSshShell(sshServer, "welcome", "Test ssh app with console reader", ImmutableList.of(new Example()));
         sshServer.start();
 
 
