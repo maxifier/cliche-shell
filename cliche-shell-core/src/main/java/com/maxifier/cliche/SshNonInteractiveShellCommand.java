@@ -106,7 +106,6 @@ public class SshNonInteractiveShellCommand implements Command {
     @Override
     public void destroy() {
         flushHistory();
-        consoleReader.shutdown();
     }
 
 
