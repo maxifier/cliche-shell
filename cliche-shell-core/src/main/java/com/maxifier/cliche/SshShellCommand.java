@@ -130,8 +130,6 @@ class SshShellCommand implements Command {
     @Override
     public void destroy() {
         this.future.cancel(false);
-        flushHistory();
-        consoleReader.shutdown();
     }
 
 
