@@ -52,6 +52,18 @@ public @interface Command {
      */
     String header() default "";
 
+
+    /**
+     * Allows command-UI to call this command automatically and very often.<p/>
+     * So command-UI treats the result of this command as a actual screen like linux command 'top',
+     * which refreshes screens of the current processes very often.<p/>
+     * This command should not start any process, it should return just representation of process or server-side activity.
+     *
+     * @return true if the command is followable, so it can be automatically called(refreshed) by command-UI.
+     */
+    boolean followable() default false;
+
+
     /**
      * Specify the Class which will implement auto-complete logic. The class should return list of possible options by terms.
      *
