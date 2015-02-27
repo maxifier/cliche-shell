@@ -35,4 +35,11 @@ public @interface Param {
      */
     String description() default "";
 
+    /**
+     * Specify the Class which will implement auto-complete logic. The class should return list of possible options by terms.
+     *
+     * @return command's header or "" if not set.
+     */
+    Class<? extends CommandCompleter> completer() default Command.DEFAULT_COMPLETER.class;
+
 }

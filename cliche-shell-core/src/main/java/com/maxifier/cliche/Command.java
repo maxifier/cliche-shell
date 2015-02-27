@@ -69,13 +69,23 @@ public @interface Command {
      *
      * @return command's header or "" if not set.
      */
-    Class<? extends Completer> completer() default DEFAULT_COMPLETER.class;
+    Class<? extends CommandCompleter> completer() default DEFAULT_COMPLETER.class;
 
-    static final class DEFAULT_COMPLETER implements Completer {
+    static final class DEFAULT_COMPLETER implements CommandCompleter {
         @Override
-        public int complete(String buffer, int cursor, List<CharSequence> candidates) {
-            return 0;
+        public List<CharSequence> complete(String buffer) {
+            return null;
         }
     }
+
+
+    /**
+     * Allows command-UI to pass parameters to command not by positions but by names. <p/>
+     * For instance the user can pass command-line 'param2:value2 param1:value1' instead passing parameters by turn 'value1 value2'
+     *
+     * @return true if the command can be invoked with defining parameters by names
+     */
+    boolean withNamedParameters() default false;
+
 
 }
