@@ -35,13 +35,14 @@ public class ShellFactory {
 
     /**
      * One of facade methods for operating the Shell.
-     * <p/>
+     *
      * Run the obtained Shell with commandLoop().
      *
      * @param prompt   Prompt to be displayed
      * @param appName  The app name string
      * @param handlers Command handlers
      * @return Shell that can be either further customized or run directly by calling commandLoop().
+     * @throws IOException
      */
     public static Shell createConsoleShell(String prompt, String appName, Object... handlers) throws IOException {
         ConsoleIO io = new ConsoleIO();
@@ -147,7 +148,7 @@ public class ShellFactory {
     /**
      * Facade method for operating the Shell allowing specification of auxiliary
      * handlers (i.e. handlers that are to be passed to all subshells).
-     * <p/>
+     *
      * Run the obtained Shell with commandLoop().
      *
      * @param prompt      Prompt to be displayed
@@ -155,6 +156,7 @@ public class ShellFactory {
      * @param mainHandler Main command handler
      * @param auxHandlers Aux handlers to be passed to all subshells.
      * @return Shell that can be either further customized or run directly by calling commandLoop().
+     * @throws IOException
      */
     public static Shell createConsoleShell(String prompt, String appName, Object mainHandler,
                                            MultiMap<String, Object> auxHandlers) throws IOException {
@@ -179,13 +181,14 @@ public class ShellFactory {
 
     /**
      * Facade method for operating the Shell.
-     * <p/>
+     *
      * Run the obtained Shell with commandLoop().
      *
      * @param prompt      Prompt to be displayed
      * @param appName     The app name string
      * @param mainHandler Command handler
      * @return Shell that can be either further customized or run directly by calling commandLoop().
+     * @throws IOException 
      */
     public static Shell createConsoleShell(String prompt, String appName, Object mainHandler) throws IOException {
         return createConsoleShell(prompt, appName, mainHandler, new EmptyMultiMap<String, Object>());
@@ -194,7 +197,7 @@ public class ShellFactory {
     /**
      * Facade method facilitating the creation of subshell.
      * Subshell is created and run inside Command method and shares the same IO and naming strategy.
-     * <p/>
+     *
      * Run the obtained Shell with commandLoop().
      *
      * @param pathElement sub-prompt
@@ -224,7 +227,7 @@ public class ShellFactory {
     /**
      * Facade method facilitating the creation of subshell.
      * Subshell is created and run inside Command method and shares the same IO and naming strtategy.
-     * <p/>
+     *
      * Run the obtained Shell with commandLoop().
      *
      * @param pathElement sub-prompt

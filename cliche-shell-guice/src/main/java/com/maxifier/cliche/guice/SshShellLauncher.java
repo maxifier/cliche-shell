@@ -18,7 +18,7 @@ import java.security.PublicKey;
 import java.util.Collection;
 
 /**
- * It is intended for launch ssh-server with specified port, name and shellHandlers.<p/>
+ * It is intended for launch ssh-server with specified port, name and shellHandlers.
  * {@link SshShellLauncher#shellHandlers} is collection of shell handlers, which will be used for initializing the new shell,
  * when a new user connects to the ssh-server.
  *

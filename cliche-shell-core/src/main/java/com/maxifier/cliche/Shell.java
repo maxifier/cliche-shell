@@ -82,7 +82,7 @@ public class Shell {
      * @param s            Settings object for the shell instance
      * @param commandTable CommandTable to store commands
      * @param path         Shell's location: list of path elements.
-     * @see asg.cliche.ShellFactory
+     * see asg.cliche.ShellFactory
      */
     public Shell(Settings s, CommandTable commandTable, List<String> path) {
         this.commandTable = commandTable;
@@ -129,14 +129,14 @@ public class Shell {
      * Method for registering command hanlers (or providers?)
      * You call it, and from then the Shell has all commands declare in
      * the handler object.
-     * <p/>
+     *
      * This method recognizes if it is passed ShellDependent or ShellManageable
      * and calls corresponding methods, as described in those interfaces.
      *
      * @param handler Object which should be registered as handler.
      * @param prefix  Prefix that should be prepended to all handler's command names.
-     * @see asg.cliche.ShellDependent
-     * @see asg.cliche.ShellManageable
+     * see asg.cliche.ShellDependent
+     * see asg.cliche.ShellManageable
      */
     public void addMainHandler(Object handler, String prefix) {
         if (handler == null) {
@@ -159,7 +159,7 @@ public class Shell {
      *
      * @param handler Object which should be registered as handler.
      * @param prefix  Prefix that should be prepended to all handler's command names.
-     * @see asg.cliche.Shell#addMainHandler(java.lang.Object, java.lang.String)
+     * see asg.cliche.Shell#addMainHandler(java.lang.Object, java.lang.String)
      */
     public void addAuxHandler(Object handler, String prefix) {
         if (handler == null) {
@@ -259,8 +259,8 @@ public class Shell {
      * All output is directed to shell's Output.
      *
      * @param line Full command line
-     * @throws asg.cliche.CLIException This may be TokenException
-     * @see asg.cliche.Output
+     * throws asg.cliche.CLIException This may be TokenException
+     * see asg.cliche.Output
      */
     public void processLine(String line) throws CLIException {
         if (line.trim().equals("?")) {

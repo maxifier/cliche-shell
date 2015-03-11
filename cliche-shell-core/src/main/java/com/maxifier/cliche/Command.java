@@ -54,9 +54,9 @@ public @interface Command {
 
 
     /**
-     * Allows command-UI to call this command automatically and very often.<p/>
+     * Allows command-UI to call this command automatically and very often.
      * So command-UI treats the result of this command as a actual screen like linux command 'top',
-     * which refreshes screens of the current processes very often.<p/>
+     * which refreshes screens of the current processes very often.
      * This command should not start any process, it should return just representation of process or server-side activity.
      *
      * @return true if the command is followable, so it can be automatically called(refreshed) by command-UI.
@@ -80,7 +80,7 @@ public @interface Command {
 
 
     /**
-     * Allows command-UI to pass parameters to command not by positions but by names. <p/>
+     * Allows command-UI to pass parameters to command not by positions but by names.
      * For instance the user can pass command-line 'param2:value2 param1:value1' instead passing parameters by turn 'value1 value2'
      *
      * @return true if the command can be invoked with defining parameters by names
