@@ -2,12 +2,6 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
 
-    <parent>
-        <groupId>com.maxifier</groupId>
-        <artifactId>maxifier-project</artifactId>
-        <version>2.5</version>
-    </parent>
-
     <modules>
         <module>cliche-shell-core</module>
         <module>cliche-shell-guice</module>
