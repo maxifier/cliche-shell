@@ -17,7 +17,7 @@
             <artifactId>cliche-shell-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.maxifier.guice</groupId>
+            <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
         </dependency>
     </dependencies>
